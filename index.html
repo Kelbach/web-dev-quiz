@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Web Dev Quiz</title>
+</head>
+<body>
+    <div class="row min-vh-100 no-gutters">
+        <header class="col-12 col-lg-3 bg-dark sticky-top d-flex flex-column p-4 p-lg-3">
+            <h1 class="text-center text-light">
+                Web Developer Challenge Quiz
+            </h1>
+            <form id="quiz-form">
+                <div class="form-group">
+                  <input type="text" name="quiz-name" placeholder="Enter Your Name" />
+                </div>
+                <div class="form-group">
+                  <button class="btn text-light" id="start-btn" type="submit">Start Quiz</button>
+                </div>
+            </form>
+            <div class="d-flex flex-column justify-content-around">
+                <div class="card text-dark fs-2">
+                    <h2 class="text-center">High Score</h2>
+                    <ul class="list-group list-group-flush" id="high-score">
+                    
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <main class="col-12 col-lg-7 d-flex flex-column align-content-around flex-wrap">
+            <div class="row">
+                <div class="col-12" id="question">
+                    <h2 class="text-center">Question</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" id="choices">
+                    <h2 class="text-center">Choices</h2>
+                    <ul class="list-group list-group-flush">
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" id="answer">
+                    <h2 class="text-center">Answers</h2>
+                </div>
+            </div> 
+        </main>
+        <div class="col-12 col-lg-2 d-flex flex-column">     
+            <div class="row">
+                <div class="col-12" id="timer">    
+                    <h2 class="text-center">Timer</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

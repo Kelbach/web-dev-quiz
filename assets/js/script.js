@@ -1,6 +1,7 @@
 var highScore = {name: "",score: ""};
 var formEl = document.querySelector("#quiz-name");
 var timerEl = document.getElementById('timer');
+var i = 0;
 
 const questions = [
     {
@@ -11,7 +12,7 @@ const questions = [
             "Hypertext Markup Language",
             "Happy Turtles Made Love",
         ],
-        answer: "Hypertext Markup Language"
+        answer: 2
     },
     {
         question: "What does API stand for?",
@@ -21,7 +22,7 @@ const questions = [
             "Apple I",
             "Ape Private Investigator",
         ],
-        answer: "Application Programming Interface"
+        answer: 0
     },
     {
         question: "What seperates a class from an element in a stylesheet?",
@@ -31,7 +32,7 @@ const questions = [
             "[]",
             ".",
         ],
-        answer: "."
+        answer: 3
     },
     {
         question: "What is a boolean?",
@@ -41,7 +42,7 @@ const questions = [
             "A true/false data type.",
             "A ghastly event.",
         ],
-        answer: "A true/false data type."
+        answer: 2
     },
     {
         question: "In a for loop, what does i++ do?",
@@ -51,7 +52,7 @@ const questions = [
             "adds one second",
             "increases i counter by one",
         ],
-        answer: "increases i counter by one"
+        answer: 3
     },
     {
         question: "How many milliseconds are in a second?",
@@ -61,7 +62,7 @@ const questions = [
             "1000",
             "1E-3",
         ],
-        answer: "1000"
+        answer: 2
     },
     {
         question: "If a division is inside of a division it is known as _____",
@@ -71,7 +72,7 @@ const questions = [
             "a parent",
             "class",
         ],
-        answer: "a child"
+        answer: 1
     }        
 ];
 
@@ -81,11 +82,9 @@ var quizGo = function(event) {
     if (!quizNameInput) {
         alert("Please Enter Your Name");
         return false;
-    }
-
+    };
+    var timeLeft = 90;
     var countdown = function() {
-        var timeLeft = 90;
-      
         // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
         var timeInterval = setInterval(function() {
           // As long as the `timeLeft` is greater than 1
@@ -113,33 +112,56 @@ var quizGo = function(event) {
         var questionEl = document.createElement("div");
         questionEl.className = "questions";
 
-        var choicesEl = document.createElement("ul");
-        choicesEl.className = "choices";
+        var c0El = document.querySelector("#q0");
+        var c1El = document.querySelector("#q1");
+        var c2El = document.querySelector("#q2");
+        var c3El = document.querySelector("#q3");
 
         var answerEl = document.createElement("div")
         answerEl.className = "answer";
         
         var checkAnswer = function() {
-            console.log("shit");
-        }
+            console.log("poo");
+        };
         
-        function renderQuestion(i) {
-            setTimeout(function() {
-                questionEl.innerHTML = "<h3 class='question'>" + questions[i].question + "</h3>";
-                document.querySelector("#question").append(questionEl);
+        while (timeLeft > 0) {
+            questionEl.innerHTML = "<h3 class='question'>" + questions[i].question + "</h3>";
+            document.querySelector("#question").append(questionEl);
+            c0El.textContent = questions[i].choices[0];
+            c1El.textContent = questions[i].choices[1];
+            c2El.textContent = questions[i].choices[2];
+            c3El.textContent = questions[i].choices[3];
 
-                choicesEl.innerHTML = "<li><button id='choice-0'>" + questions[i].choices[0] + "</btn></li></br><li><button id='choice-1'>" + questions[i].choices[1] + "</btn></li></br><li><button id='choice-2'>" + questions[i].choices[2] + "</btn></li></br><li><button id='choice-3'>" + questions[i].choices[3] + "</btn></li></br>";
-                document.querySelector("#choices").append(choicesEl);
-                document.querySelector("#choice-0").addEventListener("click", checkAnswer);
-            }, 90000*i);
-        }
+            document.querySelector("#q0").addEventListener("click", checkAnswer());
 
-        //make while loop to set individual conditions
-        for (var i = 0; i < questions.length; i++) {
-            renderQuestion(i);
-        }
-    }
-       
+            //problem with how to change click event into boolean
+            if(document.getElementById('#q0').clicked == true || questions[i].answer !== 0){
+                i++;
+                createQuestions();
+                timeLeft = timeLeft - 5;
+            }
+            if(document.getElementById('#q1').clicked == true || questions[i].answer !== 1){
+                i++;
+                createQuestions();
+                timeLeft = timeLeft - 5
+            }
+            if(document.getElementById('#q2').clicked == true || questions[i].answer !== 2){
+                i++;
+                createQuestions();
+                timeLeft = timeLeft - 5
+            }
+            if(document.getElementById('#q3').clicked == true || questions[i].answer !== 3){
+                i++;
+                createQuestions();
+                timeLeft = timeLeft - 5
+            }
+            else {
+                i++;
+                createQuestions();
+            }
+        };
+    };
+
     countdown();
     createQuestions();
 

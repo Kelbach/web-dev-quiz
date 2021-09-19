@@ -1,9 +1,10 @@
 var highScore = {name: "",score: ""};
-var formEl = document.querySelector("#quiz-name");
+var formEl = document.querySelector("#quiz-form");
 var timerEl = document.getElementById('timer');
-var i = 0;
+highScoreCounter = 0;
+var Q = 0;
 
-const questions = [
+const questions =[
     {
         question: "What does HTML stand for?",
         choices: [
@@ -12,7 +13,7 @@ const questions = [
             "Hypertext Markup Language",
             "Happy Turtles Made Love",
         ],
-        answer: 2
+        answer: "Hypertext Markup Language"
     },
     {
         question: "What does API stand for?",
@@ -73,8 +74,42 @@ const questions = [
             "class",
         ],
         answer: 1
-    }        
+    }
 ];
+
+// //buttons might be a pain
+// var isClicked0 = false;
+// document.querySelector('#q0').addEventListener("click", function(){
+//     if(isClicked0 == false){
+//     isClicked0 = true;
+//     } else {
+//     isClicked0 = false;
+//     }
+// });
+// var isClicked1 = false;
+// document.querySelector('#q1').addEventListener("click", function(){
+//     if(isClicked1 == false){
+//     isClicked1 = true;
+//     } else {
+//     isClicked1 = false;
+//     }
+// });
+// var isClicked2 = false;
+// document.querySelector('#q2').addEventListener("click", function(){
+//     if(isClicked2 == false){
+//     isClicked2 = true;
+//     } else {
+//     isClicked2 = false;
+//     }
+// });
+// var isClicked3 = false;
+// document.querySelector('#q3').addEventListener("click", function(){
+//     if(isClicked3 == false){
+//     isClicked3 = true;
+//     } else {
+//     isClicked3 = false;
+//     }
+// });
 
 var quizGo = function(event) {
     event.preventDefault();
@@ -83,89 +118,64 @@ var quizGo = function(event) {
         alert("Please Enter Your Name");
         return false;
     };
-    var timeLeft = 90;
+
+    var timeLeft = 40;
+    createQuestions();
+
     var countdown = function() {
-        // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
         var timeInterval = setInterval(function() {
-          // As long as the `timeLeft` is greater than 1
           if (timeLeft > 1) {
-            // Set the `textContent` of `timerEl` to show the remaining seconds
             timerEl.textContent = timeLeft;
-            // Decrement `timeLeft` by 1
-            timeLeft--;
-          } else if (timeLeft === 1) {
-            // When `timeLeft` is equal to 1, rename to 'second' instead of 'seconds'
-            timerEl.textContent = timeLeft;
-            timeLeft--;
+            timeLeft--;        
           } else {
-            // Once `timeLeft` gets to 0, set `timerEl` to an empty string
             timerEl.textContent = '';
-            // Use `clearInterval()` to stop the timer
             clearInterval(timeInterval);
-            // Call the `displayMessage()` function
             alert("Time's up. Score: 0");
+            highScore.name = quizNameInput;
+            highScore.score = 0;
+            saveHighScore(highScore);
+            quizNameInput = ('');
           }
         }, 1000);
     };
 
-    var createQuestions = function() {
-        var questionEl = document.createElement("div");
+    function createQuestions() {
+        var questionEl = document.getElementById("question");
         questionEl.className = "questions";
+        //clearquestionEl
+        var h2El = document.createElement("h2");
+        h2El.textContent = questions[Q].question;
 
-        var c0El = document.querySelector("#q0");
-        var c1El = document.querySelector("#q1");
-        var c2El = document.querySelector("#q2");
-        var c3El = document.querySelector("#q3");
-
-        var answerEl = document.createElement("div")
-        answerEl.className = "answer";
-        
-        var checkAnswer = function() {
-            console.log("poo");
-        };
-        
-        while (timeLeft > 0) {
-            questionEl.innerHTML = "<h3 class='question'>" + questions[i].question + "</h3>";
-            document.querySelector("#question").append(questionEl);
-            c0El.textContent = questions[i].choices[0];
-            c1El.textContent = questions[i].choices[1];
-            c2El.textContent = questions[i].choices[2];
-            c3El.textContent = questions[i].choices[3];
-
-            document.querySelector("#q0").addEventListener("click", checkAnswer());
-
-            //problem with how to change click event into boolean
-            if(document.getElementById('#q0').clicked == true || questions[i].answer !== 0){
-                i++;
-                createQuestions();
-                timeLeft = timeLeft - 5;
-            }
-            if(document.getElementById('#q1').clicked == true || questions[i].answer !== 1){
-                i++;
-                createQuestions();
-                timeLeft = timeLeft - 5
-            }
-            if(document.getElementById('#q2').clicked == true || questions[i].answer !== 2){
-                i++;
-                createQuestions();
-                timeLeft = timeLeft - 5
-            }
-            if(document.getElementById('#q3').clicked == true || questions[i].answer !== 3){
-                i++;
-                createQuestions();
-                timeLeft = timeLeft - 5
-            }
-            else {
-                i++;
-                createQuestions();
-            }
-        };
+        questionEl.appendChild(h2El);
+        var choicesEl = document.getElementById("choices");
+        choicesEl.innerHTML = "";
+            
+        questions[Q].choices.forEach(function(choice){
+            var button = document.createElement("button");
+            button.textContent = choice;
+            button.setAttribute("value", choice);
+            button.onclick = checkAnswer;
+            choicesEl.appendChild(button);
+        })
     };
+    
+    function checkAnswer(){
+        if (this.value !== questions[Q].answer){
+            console.log("wrong"); //checktimer
+        } else {
+            console.log("right");
+        }
+        Q++;
+        if (Q === questions.length){ //savetimer
+            console.log("endgame");
+        }else {createQuestions();
+            
+        }
+    }
 
     countdown();
-    createQuestions();
 
-    
+    playerScore = timeLeft;
     var playerObj = {
         name: quizNameInput,
         score: playerScore
@@ -183,6 +193,7 @@ var createHighScore = function() {
     highScoreEl.innerHTML = "<h3 class = 'text-center'>" + highScore.name + ": " + highScore.score + "</h3>"
     
     document.querySelector("#high-score").append(highScoreEl);
+    saveHighScore(highScore);
     
 };
 

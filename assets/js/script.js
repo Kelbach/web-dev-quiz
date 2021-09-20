@@ -93,7 +93,7 @@ var quizGo = function(event) {
 
     function countdown() {
         var timeInterval = setInterval(function() {
-            timerEl.textContent = timeLeft;
+            timerEl.textContent = "Time: " + timeLeft;
             timeLeft--;
             if (timeLeft <= 0){
             clearInterval(timeInterval);
@@ -139,12 +139,10 @@ var quizGo = function(event) {
             console.log("wrong");
         } else {console.log("right");}
         Q++;
-        if (Q === questions.length || timeLeft < 0 ){ 
+        if (Q === questions.length || timeLeft <= 0 ){ 
             console.log("endgame");
             endgame();
-        }else {createQuestions();
-        
-        };
+        }else {createQuestions();};
     }
 
     function endgame() {
@@ -158,6 +156,7 @@ var quizGo = function(event) {
         saveHighScore(highScore);
         createHighScore(highScore);
         console.log("game-over");
+        return timeLeft = 0;
     }
 
     formEl.reset();
